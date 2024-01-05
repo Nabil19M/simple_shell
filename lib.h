@@ -1,0 +1,1 @@
+char* f_ex_path(const char* command);
