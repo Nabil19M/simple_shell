@@ -29,10 +29,10 @@ int main(void) {
         }
  //---------------------------------------------------------------------------------------------       
         // Remove the newline character from the input
-        buffer[strcspn(buffer, "\n")] = 0;
+        buffer[_strcspn(buffer, "\n")] = 0;
 
         // Check if the user entered "exit", and exit the loop if true
-        if (strcmp(buffer, "exit") == 0){
+        if (_strcmp(buffer, "exit") == 0){
             break;
         }
  //---------------------------------------------------------------------------------------------       
@@ -52,8 +52,6 @@ int main(void) {
  //---------------------------------------------------------------------------------------------       
 
 
-
-
  //---------------------------------------------------------------------------------------------       
         // Child process code
         else if (procid == 0){
@@ -65,7 +63,7 @@ int main(void) {
 //---------------------------------------------------------------------------------------------
             //prints enviroment variabels
         
-            if(strcmp(argv[0], "env") == 0){
+            if(_strcmp(argv[0], "env") == 0){
                 while (*env != NULL) {
                     envp[i] = *env;
                     env++;

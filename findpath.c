@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "lib.h"
 #define MX_PTH_LNTH 1024
 
 char* f_ex_path(const char* command) {
 
     // Get the value of the PATH environment variable
-    char* pth_env = getenv("PATH");
+    char* pth_env = get_pth("PATH");
 
     // If PATH is not set, return NULL
     if (pth_env == NULL) {
@@ -15,7 +16,7 @@ char* f_ex_path(const char* command) {
     }
 
     // Duplicate the PATH string to avoid modifying the original string
-    char* pth_cpy = strdup(pth_env);
+    char* pth_cpy = _strdup(pth_env);
 
     // Check for memory allocation failure
     if (pth_cpy == NULL) {
@@ -44,7 +45,7 @@ char* f_ex_path(const char* command) {
         if (access(exec_path, X_OK) == 0) {
 
             // If executable, duplicate the path and return it
-            char* result = strdup(exec_path);
+            char* result = _strdup(exec_path);
             free(pth_cpy);// Free the duplicated PATH string before returning
             return result;
         }

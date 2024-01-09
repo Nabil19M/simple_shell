@@ -1,7 +1,16 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <signal.h>
+
 size_t _strcspn(const char *str, const char *r) {
     size_t i;
     for (i = 0; str[i] != '\0'; ++i) {
-        for (size_t j = 0; r[j] != NULL; ++j) {
+        for (size_t j = 0; r[j] != '\0'; ++j) {
             if (str[i] == r[j]) {
                 return i;
             }
