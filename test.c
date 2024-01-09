@@ -27,7 +27,7 @@ int main(void) {
             printf("\n");
             break;
         }
-        
+ //---------------------------------------------------------------------------------------------       
         // Remove the newline character from the input
         buffer[strcspn(buffer, "\n")] = 0;
 
@@ -35,7 +35,11 @@ int main(void) {
         if (strcmp(buffer, "exit") == 0){
             break;
         }
+ //---------------------------------------------------------------------------------------------       
 
+
+
+ //---------------------------------------------------------------------------------------------       
         //creates a child process so we have two processes
         //the parent process will wait the child to excut so we can keep the terminal working
         pid_t procid = fork();
@@ -45,15 +49,22 @@ int main(void) {
             perror("fork");
             exit(EXIT_FAILURE);
         }
-        
+ //---------------------------------------------------------------------------------------------       
+
+
+
+
+ //---------------------------------------------------------------------------------------------       
         // Child process code
         else if (procid == 0){
             int s;
-            
             token = strtok(buffer, sp);
             argv[0] = token;
-            
+
+
+//---------------------------------------------------------------------------------------------
             //prints enviroment variabels
+        
             if(strcmp(argv[0], "env") == 0){
                 while (*env != NULL) {
                     envp[i] = *env;
@@ -66,29 +77,49 @@ int main(void) {
                 }
                 goto jump;
             }
-            
-            //devides the input into arguments
-            i = 1;
-            while( token != NULL ) {
-                    token = strtok(NULL, sp);
-                    argv[i] = token;
-                    i++;
-            }
+ //---------------------------------------------------------------------------------------------
 
-            //excute the code saved in array buffer
-                s = execve(f_ex_path(buffer), argv, envp);
-                if(s == -1){
-                    //if error in excution it prints the error
-                    perror(buffer);
+
+
+
+
+            else{
+ //---------------------------------------------------------------------------------------------       
+                //devides the input into arguments
+                i = 1;
+                while( token != NULL ) {
+                        token = strtok(NULL, sp);
+                        argv[i] = token;
+                        i++;
+                }
+ //---------------------------------------------------------------------------------------------       
+                if(_chpath(argv[0])){
+                    s = execve(argv[0], argv, envp);
                 }
 
-        }
+ //---------------------------------------------------------------------------------------------       
+                else{
+                    //excute the code saved in array buffer
+                    s = execve(f_ex_path(buffer), argv, envp);
+                }
+                if(s == -1){
+                        //if error in excution it prints the error
+                        perror(buffer);
+                }
+            }
 
+        }
+ //---------------------------------------------------------------------------------------------       
+
+
+ //---------------------------------------------------------------------------------------------       
         // Parent process waits for the child to complete
         else{
             
             wait(NULL);
         }
     }
+ //---------------------------------------------------------------------------------------------       
+
     return 0;
 }
