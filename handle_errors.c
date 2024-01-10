@@ -22,11 +22,11 @@ int handle_errors(char **command, char *program[], int prompt_count, int error_n
         write(STDOUT_FILENO, ": ", 2);
 
         // Print the system error message using perror
-        //perror(" ");
-        if (error_num == 127)
+        perror(" ");
+      /*  if (error_num == 127)
             write(STDOUT_FILENO, "command not found", 18);
         else
-            write(STDOUT_FILENO, "Permission denied", 18);
+            write(STDOUT_FILENO, "Permission denied", 18);*/
     }
 
     // Check if the error number is 2
