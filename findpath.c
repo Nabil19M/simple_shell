@@ -1,12 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+
 #include "lib.h"
-#define MX_PTH_LNTH 1024
 
-char* f_ex_path(const char* command) {
-
+char* f_ex_path(const char* command, char *av[], int cnt) {
+char* car;
     // Get the value of the PATH environment variable
     char* pth_env = get_pth("PATH");
 
@@ -43,16 +39,33 @@ char* f_ex_path(const char* command) {
 
         // Check if the concatenated path is executable
         if (access(exec_path, X_OK) == 0) {
-
             // If executable, duplicate the path and return it
             char* result = _strdup(exec_path);
             free(pth_cpy);// Free the duplicated PATH string before returning
             return result;
         }
 
+        
+        char* car = exec_path;
+
         // Move to the next directory in PATH
         dir = strtok(NULL, ":");
     }
+    	if (stat(car, &buf) == -1){
+		    handle_errors((char**)&command, av, cnt, 127);
+           _putchar('\n');
+            return '\0';
+	    }
+   
+        if (access(car, X_OK) == -1) {
+            handle_errors((char**)&command, av, cnt, 126);
+            _putchar('\n');
+            return '\0';
+        }
+        
+        
+        
+    
 
     // Free the duplicated PATH string if no executable path is found
     free(pth_cpy);

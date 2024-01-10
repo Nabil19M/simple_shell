@@ -1,11 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <signal.h>
+#include "lib.h"
+
 
 size_t _strcspn(const char *str, const char *r) {
     size_t i;
@@ -68,7 +62,8 @@ int isSubstring(const char *str, const char *sub) {
     return 0; // Substring not found
 }
     
- char *get_pth(const char* pth) {
+ char *get_pth(const char* pth)
+ {
     extern char **environ;
     char **envp = environ;
     char *argv = NULL;
@@ -76,7 +71,8 @@ int isSubstring(const char *str, const char *sub) {
 
     int i = 0;
 
-    while (envp[i] != NULL) {
+    while (envp[i] != NULL)
+    {
         if (isSubstring(envp[i], pth)) {
             argv = envp[i];
             break;
@@ -87,11 +83,27 @@ int isSubstring(const char *str, const char *sub) {
     return argv;
 }
 
-int _chpath(const char* command){
+int _chpath(const char* command)
+{
     for(int i = 0; command[i] != '\0'; i++){
         if(command[i] == '/'){
             return 1;
         }
     }
     return 0;
+}
+
+int  _strlen(char *str)
+{
+    int i = 0;
+    while(str[i] != '\0')
+    {
+        i++;
+    }
+    return i;
+}
+
+int _putchar(char ch)
+{
+	return (write(STDOUT_FILENO, &ch, 1));
 }

@@ -1,20 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
 #include "lib.h"
-#define BUFFER_SIZE 1024
-extern char **environ;
 
-int main(void) {
+int main(int ac __attribute__((unused)), char *av[]) {
     char buffer[BUFFER_SIZE];
     char* envp[BUFFER_SIZE];
-    char* argv[BUFFER_SIZE];
+    char* ar_gv[BUFFER_SIZE];
     const char sp[2] = " ";
     char *token;
     int i = 0;
     char **env = environ;
+    int cnt = 1;
+
 
     //Infinite loop to keep the shell running until the user enters the "exit" command or error occurs    
     while(1){
@@ -46,7 +41,6 @@ int main(void) {
 
         // Fork failed, print an error and exit
         if (procid == -1) {
-            perror("fork");
             exit(EXIT_FAILURE);
         }
  //---------------------------------------------------------------------------------------------       
@@ -57,13 +51,13 @@ int main(void) {
         else if (procid == 0){
             int s;
             token = strtok(buffer, sp);
-            argv[0] = token;
+            ar_gv[0] = token;
 
 
 //---------------------------------------------------------------------------------------------
             //prints enviroment variabels
         
-            if(_strcmp(argv[0], "env") == 0){
+            if(_strcmp(ar_gv[0], "env") == 0){
                 while (*env != NULL) {
                     envp[i] = *env;
                     env++;
@@ -81,31 +75,30 @@ int main(void) {
 
 
 
-            else{
+            
  //---------------------------------------------------------------------------------------------       
-                //devides the input into arguments
-                i = 1;
-                while( token != NULL ) {
-                        token = strtok(NULL, sp);
-                        argv[i] = token;
-                        i++;
-                }
- //---------------------------------------------------------------------------------------------       
-                if(_chpath(argv[0])){
-                    s = execve(argv[0], argv, envp);
-                }
-
- //---------------------------------------------------------------------------------------------       
-                else{
-                    //excute the code saved in array buffer
-                    s = execve(f_ex_path(buffer), argv, envp);
-                }
-                if(s == -1){
-                        //if error in excution it prints the error
-                        perror(buffer);
-                }
+            //devides the input into arguments
+            i = 1;
+            while( token != NULL ) {
+                    token = strtok(NULL, sp);
+                    ar_gv[i] = token;
+                    i++;
+            }
+//---------------------------------------------------------------------------------------------       
+            if(_chpath(ar_gv[0])){
+                s = execve(ar_gv[0], ar_gv, envp);
             }
 
+//---------------------------------------------------------------------------------------------       
+            else{
+                //excute the code saved in array buffer
+                s = execve(f_ex_path(ar_gv[0], av, cnt), ar_gv, envp);
+                fflush(stdin);
+            
+                if(s == -1){
+                    //if error in excution it prints the error
+                }
+            }
         }
  //---------------------------------------------------------------------------------------------       
 
@@ -116,6 +109,7 @@ int main(void) {
             
             wait(NULL);
         }
+        cnt++;
     }
  //---------------------------------------------------------------------------------------------       
 
