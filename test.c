@@ -16,7 +16,7 @@ int main(int ac __attribute__((unused)), char *av[])
 
 	while (1)
 	{
-		if(isatty(STDIN_FILNO))
+		if (isatty(STDIN_FILNO))
 			write(1, "$", 1);
 		if (getline(&buffer, &bufsize, stdin) == EOF)
 		{
