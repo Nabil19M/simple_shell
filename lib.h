@@ -27,4 +27,6 @@ int  _strlen(const char *str);
 int print_prompt_count(int n);
 int _putchar(char c);
 int handle_errors(char **command, char *program[], int pc, int error_num);
+char *_strncpy(char *destination, char *source, int n);
+int _atoi(char *s);
 #endif
