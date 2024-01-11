@@ -123,5 +123,10 @@ char *_strdup(const char *str)
 		}
 		dup[l] = '\0';
 	}
+	else
+	{
+		free(dup);
+		return (NULL);
+	}
 	return (dup);
 }
