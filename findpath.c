@@ -9,7 +9,7 @@
 char *f_ex_path(const char *command, char *av[], int cnt)
 {
 	char *car, *pth_cpy, *pth_env, *dir, *result;
-	int pth_len = 0, offset;
+	int pth_len = 0, offset = pth_len;
 	char exec_path[MX_PTH_LNTH];
 	struct stat buf;
 
@@ -17,9 +17,7 @@ char *f_ex_path(const char *command, char *av[], int cnt)
 	pth_cpy = _strdup(pth_env);
 	if (pth_cpy == NULL || pth_env == NULL)
 		return (NULL);
-	dir = strtok(pth_cpy, ":");
-	offset = pth_len;
-	while (dir != NULL)
+	while (strtok(pth_cpy, ":") != NULL)
 	{
 		offset = 0;
 		pth_len = _strlen(dir) + 1 + _strlen(command) + 1;
@@ -29,9 +27,8 @@ char *f_ex_path(const char *command, char *av[], int cnt)
 		_strncpy(exec_path + offset, command, sizeof(command));
 		if (access(exec_path, X_OK) == 0)
 		{
-			result = _strdup(exec_path);
 			free(pth_cpy);
-			return (result);
+			return (_strdup(exec_path));
 		}
 		car = exec_path;
 		dir = strtok(NULL, ":");
