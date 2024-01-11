@@ -16,7 +16,7 @@ int main(int ac __attribute__((unused)), char *av[])
 
 	while (1)
 	{
-		write(1, "GG$ ", 4);
+		write(1, "$ ", 2);
 		if (getline(&buffer, &bufsize, stdin) == EOF)
 		{
 		_putchar('\n');
