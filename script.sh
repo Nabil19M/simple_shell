@@ -4,9 +4,10 @@
 gcc -c findpath.c -o findpath.o
 gcc -c handle_errors.c -o handle_errors.o
 gcc -c functions.c -o functions.o
+gcc -c functions2.c -o functions2.o
 
 # Create a static library archive
-ar rcs lib.a handle_errors.o functions.o findpath.o
+ar rcs lib.a handle_errors.o functions.o findpath.o functions2.o
 
 # Compile the main program
 gcc -c test.c -o test.o
