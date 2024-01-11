@@ -9,7 +9,8 @@ int main(int ac __attribute__((unused)), char *av[]) {
     int i = 0;
     char **env = environ;
     int cnt = 1;
-
+    int r = EXIT_SUCCESS;
+    char* g;
 
     //Infinite loop to keep the shell running until the user enters the "exit" command or error occurs    
     while(1){
@@ -92,8 +93,10 @@ int main(int ac __attribute__((unused)), char *av[]) {
 //---------------------------------------------------------------------------------------------       
             else{
                 //excute the code saved in array buffer
-                s = execve(f_ex_path(ar_gv[0], av, cnt), ar_gv, envp);
-                fflush(stdin);
+                g = f_ex_path(ar_gv[0], av, cnt);
+                r = atoi(g);
+                s = execve(g, ar_gv, envp);
+                //fflush(stdin);
             
                 if(s == -1){
                     //if error in excution it prints the error
@@ -113,5 +116,5 @@ int main(int ac __attribute__((unused)), char *av[]) {
     }
  //---------------------------------------------------------------------------------------------       
 
-    return 0;
+    return r;
 }

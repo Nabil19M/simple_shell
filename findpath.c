@@ -28,15 +28,19 @@ char* car;
 
         // Create a buffer to store the full path by concatenating the directory and command
         char exec_path[MX_PTH_LNTH];
-
+        int path_len = strlen(dir) + 1 + strlen(command) + 1;
         // The snprintf function is used to safely construct the path by preventing buffer overflow.
         // Parameters:
         //   - exec_path:   Buffer to store the resulting full path.
         //   - sizeof(exec_path):   Size of the buffer to prevent overflows.
         //   - dir:         Current directory from the PATH environment variable.
         //   - command:     The command for which to find the executable path.
-        snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, command);
-
+        //snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, command);
+        int offset = 0;
+        strcpy(exec_path + 0, dir);
+        offset += _strlen(dir);
+        exec_path[offset++] = '/';
+        strcpy(exec_path + offset, command);
         // Check if the concatenated path is executable
         if (access(exec_path, X_OK) == 0) {
             // If executable, duplicate the path and return it
@@ -53,14 +57,12 @@ char* car;
     }
     	if (stat(car, &buf) == -1){
 		    handle_errors((char**)&command, av, cnt, 127);
-           _putchar('\n');
-            return '\0';
+            return "127";
 	    }
    
         if (access(car, X_OK) == -1) {
             handle_errors((char**)&command, av, cnt, 126);
-            _putchar('\n');
-            return '\0';
+            return "126";
         }
         
         
