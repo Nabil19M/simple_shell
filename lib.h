@@ -26,5 +26,5 @@ int _chpath(const char *command);
 int  _strlen(const char *str);
 int print_prompt_count(int n);
 int _putchar(char c);
-int handle_errors(char **command, char *program[], int prompt_count, int error_num);
+int handle_errors(char **command, char *program[], int pc, int error_num);
 #endif
