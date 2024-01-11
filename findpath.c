@@ -8,7 +8,7 @@
  */
 char *f_ex_path(const char *command, char *av[], int cnt)
 {
-	char *car, *pth_cpy, *pth_env, *dir, *result;
+	char *car, *pth_cpy, *pth_env, *dir;
 	int pth_len = 0, offset = pth_len;
 	char exec_path[MX_PTH_LNTH];
 	struct stat buf;
